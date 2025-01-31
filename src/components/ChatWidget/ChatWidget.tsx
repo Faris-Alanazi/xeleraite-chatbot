@@ -65,25 +65,30 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ config: userConfig }) => {
     setMessages(prev => [...prev, userMessage]);
 
     try {
-      // Call the backend
-      const response = await fetch(
-        `https://n8n-automations-w0mh.onrender.com/webhook/chatbot-message?message=${encodeURIComponent(content)}&userId=${encodeURIComponent(config.uuid)}`,
-        { method: 'POST' }
-      );
+      const url = `https://n8n-automations-w0mh.onrender.com/webhook/chatbot-message?message=${encodeURIComponent(content)}&userId=${encodeURIComponent(config.uuid)}`;
+      console.log("Sending request to:", url);
 
-      if (!response.ok) throw new Error('Failed to send message');
+      const response = await fetch(url, {
+        method: 'POST',
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
       const data = await response.json();
+      console.log("Backend response:", data);
       
       // Add bot response
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: data.response || 'Sorry, I could not process your request.',
+        content: data.response || data.output || 'Sorry, I could not process your request.',
         sender: 'bot',
         timestamp: Date.now() + 1,
       };
       setMessages(prev => [...prev, botMessage]);
     } catch (error) {
+      console.error("Error:", error);
       const errorMessage = config.language === 'rtl' 
         ? 'عذراً، حدث خطأ في إرسال الرسالة. يرجى المحاولة مرة أخرى.'
         : 'Sorry, there was an error sending your message. Please try again.';
@@ -93,6 +98,15 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ config: userConfig }) => {
         description: errorMessage,
         variant: "destructive",
       });
+
+      // Add error message to chat
+      const errorBotMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        content: errorMessage,
+        sender: 'bot',
+        timestamp: Date.now() + 1,
+      };
+      setMessages(prev => [...prev, errorBotMessage]);
     }
   };
 

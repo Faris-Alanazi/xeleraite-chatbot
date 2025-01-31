@@ -1,5 +1,6 @@
 import React from 'react';
 import { ChatConfig } from './types';
+import { Circle } from 'lucide-react';
 
 interface ChatHeaderProps {
   config: ChatConfig;
@@ -8,14 +9,19 @@ interface ChatHeaderProps {
 const ChatHeader: React.FC<ChatHeaderProps> = ({ config }) => {
   return (
     <div
-      className="flex items-center p-4 rounded-t-lg"
+      className="flex items-center p-4 rounded-t-lg relative"
       style={{ backgroundColor: config.chatbot.headerColor }}
     >
-      <img
-        src={config.chatbot.avatar}
-        alt="Chatbot Avatar"
-        className="w-10 h-10 rounded-full"
-      />
+      <div className="relative">
+        <div className="absolute -top-1 -right-1 z-10">
+          <Circle className="w-3 h-3 text-green-500 fill-green-500" />
+        </div>
+        <img
+          src={config.chatbot.avatar}
+          alt="Chatbot Avatar"
+          className="w-10 h-10 rounded-full"
+        />
+      </div>
       <div className="ml-3 text-white">
         <h3 className="font-semibold">{config.chatbot.name}</h3>
         <p className="text-sm opacity-90">{config.chatbot.description}</p>
