@@ -29,6 +29,9 @@ const Index = () => {
           chatbot: {
             name: "Demo Bot",
             description: "Try me out!",
+            avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=1",
+            headerColor: "#3366FF",
+            footerColor: "#F1F1F1"
           },
         }}
       />
