@@ -20,21 +20,53 @@ const Index = () => {
             Try clicking the chat button in the bottom right corner!
           </p>
         </div>
-      </div>
 
-      <ChatWidget
-        config={{
-          uuid: "demo-user-123",
-          language: "ltr",
-          chatbot: {
-            name: "Demo Bot",
-            description: "Try me out!",
-            avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=1",
-            headerColor: "#3366FF",
-            footerColor: "#F1F1F1"
-          },
-        }}
-      />
+        <ChatWidget
+          config={{
+            uuid: "demo-user-123", // Required - only mandatory parameter
+            language: "rtl", // Optional - 'ltr' or 'rtl'
+            chatbot: {
+              avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=custom&backgroundColor=3366ff",
+              name: "نفات بوث",
+              description: "هنا لمساعدتك على مدار الساعة",
+              headerColor: "#3366FF",
+              footerColor: "#2A2A2A"
+            },
+            messages: {
+              userColor: "#3366FF",
+              botColor: "#F4F4F4",
+              background: "#FFFFFF",
+              textColor: "#1A1A1A",
+              padding: "12px",
+              borderRadius: "10px"
+            },
+            input: {
+              placeholder: "اكتب رسالتك...",
+              sendButtonColor: "#3366FF",
+              sendButtonIcon: "https://icon-library.com/images/arabic-send-icon/arabic-send-icon-0.jpg",
+              inputFieldColor: "#FAFAFA",
+              textColor: "#1A1A1A"
+            },
+            preSendMessages: [
+              "مرحبا! كيف يمكنني مساعدتك اليوم؟",
+              "هل تحتاج إلى مساعدة؟ اسألني أي شيء.",
+              "تواصل معنا للحصول على دعم سريع!"
+            ],
+            popupMessage: {
+              enabled: true,
+              text: "هل تحتاج مساعدة؟ تواصل معنا!",
+              textColor: "#FFFFFF",
+              backgroundColor: "#3366FF",
+              delay: 5
+            },
+            dimensions: {
+              width: "380px",
+              height: "600px"
+            }
+            // Note: animations object is not included as it's not customizable
+          }}
+        />
+      </div>
     </div>
   );
 };
