@@ -35,6 +35,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({ config, messages }) => {
               color: config.messages.textColor,
               padding: config.messages.padding,
               borderRadius: config.messages.borderRadius,
+              fontSize: config.chatbot.messageSize
             }}
           >
             {message.content}

@@ -22,9 +22,25 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ config }) => {
           className="w-10 h-10 rounded-full"
         />
       </div>
-      <div className="ml-3 text-white">
-        <h3 className="font-semibold">{config.chatbot.name}</h3>
-        <p className="text-sm opacity-90">{config.chatbot.description}</p>
+      <div className="ml-3">
+        <h3 
+          style={{ 
+            color: config.chatbot.nameColor,
+            fontSize: config.chatbot.nameSize
+          }}
+          className="font-semibold"
+        >
+          {config.chatbot.name}
+        </h3>
+        <p 
+          style={{ 
+            color: config.chatbot.descColor,
+            fontSize: config.chatbot.descSize
+          }}
+          className="opacity-90"
+        >
+          {config.chatbot.description}
+        </p>
       </div>
     </div>
   );

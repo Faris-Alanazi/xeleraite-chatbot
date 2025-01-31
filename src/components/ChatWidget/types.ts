@@ -12,9 +12,14 @@ export interface ChatConfig {
     description: string;   // Short description or status message
     headerColor: string;   // Color of the header background
     footerColor: string;   // Color of the footer background
+    nameColor: string;     // Color of the agent name text
+    nameSize: string;      // Font size of the agent name
+    descColor: string;     // Color of the description text
+    descSize: string;      // Font size of the description
+    messageSize: string;   // Font size for both user and bot messages
+    externalIcon: string;  // URL for the external UI component icon
   };
 
-  // Message styling configuration
   messages: {
     userColor: string;     // Background color for user messages
     botColor: string;      // Background color for bot messages
@@ -24,7 +29,6 @@ export interface ChatConfig {
     borderRadius: string;  // Message border radius (e.g., "10px")
   };
 
-  // Input area configuration
   input: {
     placeholder: string;     // Placeholder text for input field
     sendButtonColor: string; // Color of the send button
@@ -33,10 +37,8 @@ export interface ChatConfig {
     textColor: string;       // Color of input text
   };
 
-  // Initial messages shown when chat opens
   preSendMessages: string[];
 
-  // Optional popup message configuration
   popupMessage?: {
     enabled: boolean;
     text: string;
@@ -45,7 +47,6 @@ export interface ChatConfig {
     delay: number;          // Delay in seconds before showing popup
   };
 
-  // Chat widget dimensions
   dimensions: {
     width: string;          // Width of the chat widget (e.g., "380px")
     height: string;         // Height of the chat widget (e.g., "600px")
