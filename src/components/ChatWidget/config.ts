@@ -5,9 +5,9 @@ export const defaultConfig: ChatConfig = {
   language: 'rtl',
   chatbot: {
     avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=XelerAlte&backgroundColor=3366ff',
-    name: 'نفات بوث',
+    name: 'النشمي',
     description: 'هنا لمساعدتك على مدار الساعة',
-    headerColor: '#3366FF',
+    headerColor: '#238bb9',
     footerColor: '#2A2A2A',
     nameColor: '#FFFFFF',
     nameSize: '1.125rem',
