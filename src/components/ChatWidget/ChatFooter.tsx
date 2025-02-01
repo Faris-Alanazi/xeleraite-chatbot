@@ -6,11 +6,15 @@ interface ChatFooterProps {
 }
 
 const ChatFooter: React.FC<ChatFooterProps> = ({ config }) => {
-  const footerText = config.language === 'rtl' ? 'مطور عن طريق إكسيليريت' : 'Powered by XelerAIte';
+  const footerText = config.language === 'rtl' 
+    ? 'مشغل عن طريق إكسيلي' 
+    : 'Powered by Xeler';
+
+  const highlightedText = config.language === 'rtl' ? 'ريت' : 'AIte';
 
   return (
     <div
-      className="p-2 text-center text-sm rounded-b-lg"
+      className="p-2 text-center rounded-b-lg flex items-center justify-center"
       style={{ backgroundColor: config.chatbot.footerColor }}
       dir={config.language}
     >
@@ -18,9 +22,12 @@ const ChatFooter: React.FC<ChatFooterProps> = ({ config }) => {
         href="https://xeleraite.com"
         target="_blank"
         rel="noopener noreferrer"
-        className="text-gray-600 hover:text-gray-800"
+        className="text-gray-200 hover:text-gray-100 text-sm font-medium"
       >
         {footerText}
+        <span className="text-[#7bb4d0] underline underline-offset-2 decoration-2">
+          {highlightedText}
+        </span>
       </a>
     </div>
   );
