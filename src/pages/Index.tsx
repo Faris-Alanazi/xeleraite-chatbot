@@ -29,7 +29,6 @@ const Index = () => {
               avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=custom&backgroundColor=3366ff",
               name: "نفات بوث",
               description: "هنا لمساعدتك على مدار الساعة",
-              headerColor: "#3366FF",
               footerColor: "#2A2A2A",
               nameColor: "#FFFFFF",
               nameSize: "1.125rem",
