@@ -4,9 +4,10 @@ import { Circle } from 'lucide-react';
 
 interface ChatHeaderProps {
   config: ChatConfig;
+  onClose: () => void;
 }
 
-const ChatHeader: React.FC<ChatHeaderProps> = ({ config }) => {
+const ChatHeader: React.FC<ChatHeaderProps> = ({ config, onClose }) => {
   return (
     <div
       className="flex items-center p-4 rounded-t-lg relative"
@@ -22,7 +23,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ config }) => {
           className="w-10 h-10 rounded-full"
         />
       </div>
-      <div className="ml-3">
+      <div className="ml-3 flex-1">
         <h3 
           style={{ 
             color: config.chatbot.nameColor,
@@ -42,6 +43,17 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ config }) => {
           {config.chatbot.description}
         </p>
       </div>
+      <button
+        onClick={onClose}
+        className="p-2 hover:bg-black/10 rounded-full transition-colors"
+      >
+        <img
+          src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/x.svg"
+          alt="Close"
+          className="w-5 h-5"
+          style={{ filter: 'invert(1)' }}
+        />
+      </button>
     </div>
   );
 };
