@@ -5,7 +5,7 @@ export const defaultConfig: ChatConfig = {
   language: 'rtl',
   chatbot: {
     avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=XelerAIte&backgroundColor=7bb4d0",
-    name: "مساعد إكسيلريت",
+    name: "مساعد إكسيليريت",
     description: "هنا لمساعدتك على مدار الساعة",
     headerColor: "#1e2e41",
     footerColor: "#1e2e41",
@@ -32,9 +32,7 @@ export const defaultConfig: ChatConfig = {
     textColor: "#1A1A1A"
   },
   preSendMessages: [
-    "مرحبا! كيف يمكنني مساعدتك اليوم؟",
-    "هل تحتاج إلى مساعدة؟ اسألني أي شيء.",
-    "تواصل معنا للحصول على دعم سريع!"
+    "مرحبا! كيف يمكنني مساعدتك اليوم؟"
   ],
   popupMessage: {
     enabled: true,

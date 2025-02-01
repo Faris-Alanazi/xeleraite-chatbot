@@ -36,15 +36,17 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ config: userConfig }) => {
     }
 
     // Add pre-send messages
-    const preSendMessages: Message[] = config.preSendMessages.map((content, index) => ({
-      id: `pre-${index}`,
-      content,
-      sender: 'bot',
-      timestamp: Date.now() + index,
-    }));
-    setMessages(preSendMessages);
+    if (config.preSendMessages.length > 0) {
+      const preSendMessages: Message[] = config.preSendMessages.map((content, index) => ({
+        id: `pre-${index}`,
+        content,
+        sender: 'bot',
+        timestamp: Date.now() + index,
+      }));
+      setMessages(preSendMessages);
+    }
 
-    // Show popup message after delay
+    // Show popup message after delay if enabled
     if (config.popupMessage?.enabled) {
       const timer = setTimeout(() => {
         setShowPopup(true);
@@ -52,10 +54,11 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ config: userConfig }) => {
 
       return () => clearTimeout(timer);
     }
-  }, [config.uuid]);
+  }, [config.uuid, config.preSendMessages, config.popupMessage]);
 
   const handleSendMessage = async (content: string) => {
-    // Add user message
+    if (!content.trim()) return;
+
     const userMessage: Message = {
       id: Date.now().toString(),
       content,
@@ -65,21 +68,15 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ config: userConfig }) => {
     setMessages(prev => [...prev, userMessage]);
 
     try {
-      const url = `https://n8n-automations-w0mh.onrender.com/webhook/chatbot-message?message=${encodeURIComponent(content)}&userId=${encodeURIComponent(config.uuid)}`;
-      console.log("Sending request to:", url);
+      const response = await fetch(
+        `https://n8n-automations-w0mh.onrender.com/webhook/chatbot-message?message=${encodeURIComponent(content)}&userId=${encodeURIComponent(config.uuid)}`,
+        { method: 'POST' }
+      );
 
-      const response = await fetch(url, {
-        method: 'POST',
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
       const data = await response.json();
-      console.log("Backend response:", data);
       
-      // Add bot response
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
         content: data.response || data.output || 'Sorry, I could not process your request.',
@@ -88,7 +85,6 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ config: userConfig }) => {
       };
       setMessages(prev => [...prev, botMessage]);
     } catch (error) {
-      console.error("Error:", error);
       const errorMessage = config.language === 'rtl' 
         ? 'عذراً، حدث خطأ في إرسال الرسالة. يرجى المحاولة مرة أخرى.'
         : 'Sorry, there was an error sending your message. Please try again.';
@@ -98,15 +94,6 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ config: userConfig }) => {
         description: errorMessage,
         variant: "destructive",
       });
-
-      // Add error message to chat
-      const errorBotMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        content: errorMessage,
-        sender: 'bot',
-        timestamp: Date.now() + 1,
-      };
-      setMessages(prev => [...prev, errorBotMessage]);
     }
   };
 
@@ -114,16 +101,15 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ config: userConfig }) => {
     <>
       <ChatToggle config={config} isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
       
-      {showPopup && !isOpen && (
+      {showPopup && !isOpen && config.popupMessage?.enabled && (
         <div
-          className="fixed bottom-20 right-4 p-4 rounded-lg shadow-lg animate-fade-in"
+          className="fixed bottom-20 right-4 p-4 rounded-lg shadow-lg animate-fade-in max-w-[250px]"
           style={{
-            backgroundColor: config.popupMessage?.backgroundColor,
-            color: config.popupMessage?.textColor,
-            maxWidth: '250px',
+            backgroundColor: config.popupMessage.backgroundColor,
+            color: config.popupMessage.textColor,
           }}
         >
-          {config.popupMessage?.text}
+          {config.popupMessage.text}
         </div>
       )}
 
