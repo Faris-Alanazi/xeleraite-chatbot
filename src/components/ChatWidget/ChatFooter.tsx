@@ -6,12 +6,8 @@ interface ChatFooterProps {
 }
 
 const ChatFooter: React.FC<ChatFooterProps> = ({ config }) => {
-  const footerText = config.language === 'rtl' 
-    ? 'مشغل عن طريق إكسيلي' 
-    : 'Powered by Xeler';
-
-  const highlightedText = config.language === 'rtl' ? 'ريت' : 'AIte';
-
+  const isRTL = config.language === 'rtl';
+  
   return (
     <div
       className="p-2 text-center rounded-b-lg flex items-center justify-center"
@@ -24,10 +20,19 @@ const ChatFooter: React.FC<ChatFooterProps> = ({ config }) => {
         rel="noopener noreferrer"
         className="text-gray-200 hover:text-gray-100 text-sm font-medium"
       >
-        {footerText}
-        <span className="text-[#7bb4d0] underline underline-offset-2 decoration-2">
-          {highlightedText}
-        </span>
+        {isRTL ? (
+          <span className="underline underline-offset-2 decoration-2">
+            مشغل عن طريق إكسيل
+            <span className="text-[#7bb4d0]">ري</span>
+            ت
+          </span>
+        ) : (
+          <span className="underline underline-offset-2 decoration-2">
+            Powered by Xeler
+            <span className="text-[#7bb4d0]">AI</span>
+            te
+          </span>
+        )}
       </a>
     </div>
   );
