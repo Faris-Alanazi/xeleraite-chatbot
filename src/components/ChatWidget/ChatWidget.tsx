@@ -127,7 +127,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ config: userConfig }) => {
       
       {showPopup && !isOpen && config.popupMessage?.enabled && (
         <div
-          className="fixed bottom-20 right-4 p-4 rounded-lg shadow-lg animate-fade-in max-w-[250px]"
+          className="fixed bottom-20 right-4 p-4 rounded-lg shadow-lg animate-fade-in max-w-[250px] z-[51]"
           style={{
             backgroundColor: config.popupMessage.backgroundColor,
             color: config.popupMessage.textColor,
@@ -139,7 +139,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ config: userConfig }) => {
 
       {isOpen && (
         <div
-          className="bg-white rounded-lg shadow-xl flex flex-col"
+          className="fixed bottom-20 right-4 bg-white rounded-lg shadow-xl z-[52] flex flex-col overflow-hidden"
           style={{
             width: config.dimensions.width,
             height: config.dimensions.height,
@@ -147,8 +147,10 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ config: userConfig }) => {
         >
           <ChatHeader config={config} onClose={() => setIsOpen(false)} />
           <ChatMessages config={config} messages={messages} />
-          <ChatInput config={config} onSendMessage={handleSendMessage} />
-          <ChatFooter config={config} />
+          <div className="mt-auto">
+            <ChatInput config={config} onSendMessage={handleSendMessage} />
+            <ChatFooter config={config} />
+          </div>
         </div>
       )}
     </div>
