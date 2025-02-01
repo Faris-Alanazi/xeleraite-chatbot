@@ -26,7 +26,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({ config, messages }) => {
       {messages.map((message) => (
         <div
           key={message.id}
-          className={`mb-4 flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+          className={`mb-4 flex ${message.sender === 'user' ? 'justify-start' : 'justify-end'}`}
         >
           <div
             className={`rounded-lg p-3 max-w-[80%] break-words`}

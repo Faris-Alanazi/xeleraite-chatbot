@@ -1,58 +1,46 @@
 export interface ChatConfig {
-  // Required - Unique identifier for the chat session
   uuid: string;
-
-  // Optional - Text direction and language preference
   language: 'ltr' | 'rtl';
-
-  // Chatbot appearance configuration
   chatbot: {
-    avatar: string;        // URL to the chatbot's avatar image
-    name: string;          // Display name of the chatbot
-    description: string;   // Short description or status message
-    headerColor: string;   // Color of the header background
-    footerColor: string;   // Color of the footer background
-    nameColor: string;     // Color of the agent name text
-    nameSize: string;      // Font size of the agent name
-    descColor: string;     // Color of the description text
-    descSize: string;      // Font size of the description
-    messageSize: string;   // Font size for both user and bot messages
-    externalIcon: string;  // URL for the external UI component icon
+    avatar: string;
+    name: string;
+    description: string;
+    headerColor: string;
+    footerColor: string;
+    nameColor: string;
+    nameSize: string;
+    descColor: string;
+    descSize: string;
+    messageSize: string;
+    externalIcon: string;
   };
-
   messages: {
-    userColor: string;     // Background color for user messages
-    botColor: string;      // Background color for bot messages
-    background: string;    // Chat area background color
-    textColor: string;     // Message text color
-    padding: string;       // Message padding (e.g., "12px")
-    borderRadius: string;  // Message border radius (e.g., "10px")
+    userColor: string;
+    botColor: string;
+    background: string;
+    textColor: string;
+    padding: string;
+    borderRadius: string;
   };
-
   input: {
-    placeholder: string;     // Placeholder text for input field
-    sendButtonColor: string; // Color of the send button
-    sendButtonIcon: string;  // URL to the send button icon
-    inputFieldColor: string; // Background color of input field
-    textColor: string;       // Color of input text
+    placeholder: string;
+    sendButtonColor: string;
+    sendButtonIcon: string;
+    inputFieldColor: string;
+    textColor: string;
   };
-
   preSendMessages: string[];
-
   popupMessage?: {
     enabled: boolean;
     text: string;
     textColor: string;
     backgroundColor: string;
-    delay: number;          // Delay in seconds before showing popup
+    delay: number;
   };
-
   dimensions: {
-    width: string;          // Width of the chat widget (e.g., "380px")
-    height: string;         // Height of the chat widget (e.g., "600px")
+    width: string;
+    height: string;
   };
-
-  // Non-customizable animations configuration
   animations: {
     smoothTransitions: boolean;
     dynamicResizing: boolean;

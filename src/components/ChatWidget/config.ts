@@ -4,53 +4,51 @@ export const defaultConfig: ChatConfig = {
   uuid: '',
   language: 'rtl',
   chatbot: {
-    avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=custom&backgroundColor=3366ff",
+    avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=XelerAIte&backgroundColor=7bb4d0",
     name: "مساعد إكسيلريت",
     description: "هنا لمساعدتك على مدار الساعة",
-    headerColor: "#7bb4d0",
-    footerColor: "#7bb4d0",
+    headerColor: "#1e2e41",
+    footerColor: "#1e2e41",
     nameColor: "#7bb4d0",
     nameSize: "1.5rem",
     descColor: "#7bb4d0",
     descSize: "0.875rem",
     messageSize: "1rem",
-    externalIcon: "https://api.dicebear.com/7.x/bottts/svg?seed=Icon&backgroundColor=3366ff"
-    },
-    messages: {
+    externalIcon: "https://api.dicebear.com/7.x/bottts/svg?seed=Icon&backgroundColor=7bb4d0"
+  },
+  messages: {
     userColor: "#f8fafc",
     botColor: "#f8fafc",
     background: "#1e2e41",
     textColor: "#1A1A1A",
     padding: "12px",
     borderRadius: "10px"
-    },
-    input: {
+  },
+  input: {
     placeholder: "اكتب رسالتك...",
-    sendButtonColor: "#3366FF",
+    sendButtonColor: "#7bb4d0",
     sendButtonIcon: "https://icon-library.com/images/arabic-send-icon/arabic-send-icon-0.jpg",
     inputFieldColor: "#FAFAFA",
     textColor: "#1A1A1A"
-    },
-    preSendMessages: [
+  },
+  preSendMessages: [
     "مرحبا! كيف يمكنني مساعدتك اليوم؟",
     "هل تحتاج إلى مساعدة؟ اسألني أي شيء.",
     "تواصل معنا للحصول على دعم سريع!"
-    ],
-    popupMessage: {
+  ],
+  popupMessage: {
     enabled: true,
     text: "هل تحتاج مساعدة؟ تواصل معنا!",
     textColor: "#FFFFFF",
     backgroundColor: "#7bb4d0",
     delay: 5
-    },
-    dimensions: {
+  },
+  dimensions: {
     width: "380px",
-    height: "600px"}
-    ,
+    height: "600px"
+  },
   animations: {
     smoothTransitions: true,
     dynamicResizing: true
   }
 };
-
-
