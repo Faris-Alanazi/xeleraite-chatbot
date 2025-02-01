@@ -9,10 +9,7 @@ import { defaultConfig } from './config';
 
 // Define allowed origins
 const ALLOWED_ORIGINS = [
-  'https://example.com',
-  'https://app.example.com',
-  'http://localhost:3000',
-  'http://localhost:5173'
+'https://lovable.dev/projects/378d57ea-9bd8-465c-8078-4423ceb548a0'
   // Add your allowed domains here
 ];
 
