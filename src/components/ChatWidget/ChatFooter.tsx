@@ -21,13 +21,13 @@ const ChatFooter: React.FC<ChatFooterProps> = ({ config }) => {
         className="text-gray-200 hover:text-gray-100 text-sm font-medium"
       >
         {isRTL ? (
-          <span className="underline underline-offset-2 decoration-2">
+          <span>
             مشغل عن طريق إكسيل
             <span className="text-[#7bb4d0]">ري</span>
             ت
           </span>
         ) : (
-          <span className="underline underline-offset-2 decoration-2">
+          <span>
             Powered by Xeler
             <span className="text-[#7bb4d0]">AI</span>
             te
