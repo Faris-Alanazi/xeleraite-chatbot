@@ -4,7 +4,7 @@ import ChatHeader from './ChatHeader';
 import ChatMessages from './ChatMessages';
 import ChatInput from './ChatInput';
 import ChatFooter from './ChatFooter';
-import { ChatConfig } from './types';
+import { ChatConfig, Message } from './types';
 import { defaultConfig } from './config';
 
 // Define allowed origins
@@ -23,6 +23,7 @@ interface ChatWidgetProps {
 const ChatWidget: React.FC<ChatWidgetProps> = ({ config }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAllowed, setIsAllowed] = useState(false);
+  const [messages, setMessages] = useState<Message[]>([]);
   const mergedConfig = { ...defaultConfig, ...config };
 
   useEffect(() => {
@@ -34,7 +35,31 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ config }) => {
     }
     
     setIsAllowed(isOriginAllowed);
-  }, []);
+
+    // Initialize with pre-send messages if any
+    if (mergedConfig.preSendMessages && mergedConfig.preSendMessages.length > 0) {
+      const initialMessages = mergedConfig.preSendMessages.map((content, index) => ({
+        id: `pre-${index}`,
+        content,
+        sender: 'bot' as const,
+        timestamp: Date.now() + index
+      }));
+      setMessages(initialMessages);
+    }
+  }, [mergedConfig.preSendMessages]);
+
+  const handleSendMessage = (content: string) => {
+    const newMessage: Message = {
+      id: Date.now().toString(),
+      content,
+      sender: 'user',
+      timestamp: Date.now()
+    };
+    setMessages(prev => [...prev, newMessage]);
+    
+    // Here you would typically send the message to your backend
+    // and handle the response
+  };
 
   if (!isAllowed) {
     return null; // Don't render anything if origin is not allowed
@@ -48,13 +73,26 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ config }) => {
                width: mergedConfig.dimensions.width,
                height: mergedConfig.dimensions.height,
              }}>
-          <ChatHeader config={mergedConfig} onClose={() => setIsOpen(false)} />
-          <ChatMessages config={mergedConfig} />
-          <ChatInput config={mergedConfig} />
+          <ChatHeader 
+            config={mergedConfig} 
+            onClose={() => setIsOpen(false)} 
+          />
+          <ChatMessages 
+            config={mergedConfig} 
+            messages={messages}
+          />
+          <ChatInput 
+            config={mergedConfig} 
+            onSendMessage={handleSendMessage}
+          />
           <ChatFooter config={mergedConfig} />
         </div>
       ) : (
-        <ChatToggle onClick={() => setIsOpen(true)} />
+        <ChatToggle 
+          config={mergedConfig}
+          isOpen={isOpen}
+          onClick={() => setIsOpen(true)} 
+        />
       )}
     </div>
   );
