@@ -27,20 +27,21 @@ const Index = () => {
             language: "rtl", // Optional - 'ltr' or 'rtl'
             chatbot: {
               avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=custom&backgroundColor=3366ff",
-              name: "نفات بوث",
+              name: "مساعد إكسيلريت",
               description: "هنا لمساعدتك على مدار الساعة",
-              footerColor: "#2A2A2A",
-              nameColor: "#FFFFFF",
-              nameSize: "1.125rem",
-              descColor: "#E5E5E5",
+              headerColor: "#7bb4d0",
+              footerColor: "#7bb4d0",
+              nameColor: "#7bb4d0",
+              nameSize: "1.5rem",
+              descColor: "#7bb4d0",
               descSize: "0.875rem",
               messageSize: "1rem",
               externalIcon: "https://api.dicebear.com/7.x/bottts/svg?seed=Icon&backgroundColor=3366ff"
             },
             messages: {
-              userColor: "#3366FF",
-              botColor: "#F4F4F4",
-              background: "#FFFFFF",
+              userColor: "#f8fafc",
+              botColor: "#f8fafc",
+              background: "#1e2e41",
               textColor: "#1A1A1A",
               padding: "12px",
               borderRadius: "10px"
@@ -61,7 +62,7 @@ const Index = () => {
               enabled: true,
               text: "هل تحتاج مساعدة؟ تواصل معنا!",
               textColor: "#FFFFFF",
-              backgroundColor: "#3366FF",
+              backgroundColor: "#7bb4d0",
               delay: 5
             },
             dimensions: {
