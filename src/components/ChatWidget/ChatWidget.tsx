@@ -10,10 +10,10 @@ import { useToast } from "@/hooks/use-toast";
 
 // Define allowed origins
 const ALLOWED_ORIGINS = [
-  'https://lovable.dev',
-  'https://378d57ea-9bd8-465c-8078-4423ceb548a0.lovableproject.com',
-  'http://localhost:5173',
-  'http://localhost:3000'
+  // 'https://lovable.dev',
+  // 'https://378d57ea-9bd8-465c-8078-4423ceb548a0.lovableproject.com',
+  // 'http://localhost:5173',
+  // 'http://localhost:3000'
 ];
 
 interface ChatWidgetProps {
