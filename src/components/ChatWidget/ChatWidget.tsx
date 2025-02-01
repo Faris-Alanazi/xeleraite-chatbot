@@ -1,134 +1,62 @@
-import React, { useState, useEffect } from 'react';
-import { ChatConfig, Message } from './types';
-import { defaultConfig } from './config';
+import React, { useEffect, useState } from 'react';
+import ChatToggle from './ChatToggle';
 import ChatHeader from './ChatHeader';
 import ChatMessages from './ChatMessages';
 import ChatInput from './ChatInput';
 import ChatFooter from './ChatFooter';
-import ChatToggle from './ChatToggle';
-import { useToast } from "@/hooks/use-toast";
+import { ChatConfig } from './types';
+import { defaultConfig } from './config';
+
+// Define allowed origins
+const ALLOWED_ORIGINS = [
+  'https://example.com',
+  'https://app.example.com',
+  'http://localhost:3000',
+  'http://localhost:5173'
+  // Add your allowed domains here
+];
 
 interface ChatWidgetProps {
-  config?: Partial<ChatConfig>;
+  config: Partial<ChatConfig>;
 }
 
-const ChatWidget: React.FC<ChatWidgetProps> = ({ config: userConfig }) => {
+const ChatWidget: React.FC<ChatWidgetProps> = ({ config }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [showPopup, setShowPopup] = useState(false);
-  const { toast } = useToast();
-
-  // Merge default config with user config
-  const config: ChatConfig = {
-    ...defaultConfig,
-    ...userConfig,
-    chatbot: { ...defaultConfig.chatbot, ...userConfig?.chatbot },
-    messages: { ...defaultConfig.messages, ...userConfig?.messages },
-    input: { ...defaultConfig.input, ...userConfig?.input },
-    dimensions: { ...defaultConfig.dimensions, ...userConfig?.dimensions },
-    animations: { ...defaultConfig.animations, ...userConfig?.animations },
-  };
+  const [isAllowed, setIsAllowed] = useState(false);
+  const mergedConfig = { ...defaultConfig, ...config };
 
   useEffect(() => {
-    if (!config.uuid) {
-      console.error('UUID is required for chat initialization');
-      return;
+    const currentOrigin = window.location.origin;
+    const isOriginAllowed = ALLOWED_ORIGINS.includes(currentOrigin);
+    
+    if (!isOriginAllowed) {
+      console.error(`Access denied: ${currentOrigin} is not an allowed origin`);
     }
+    
+    setIsAllowed(isOriginAllowed);
+  }, []);
 
-    // Add pre-send messages
-    if (config.preSendMessages.length > 0) {
-      const preSendMessages: Message[] = config.preSendMessages.map((content, index) => ({
-        id: `pre-${index}`,
-        content,
-        sender: 'bot',
-        timestamp: Date.now() + index,
-      }));
-      setMessages(preSendMessages);
-    }
-
-    // Show popup message after delay if enabled
-    if (config.popupMessage?.enabled) {
-      const timer = setTimeout(() => {
-        setShowPopup(true);
-      }, (config.popupMessage.delay || 5) * 1000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [config.uuid, config.preSendMessages, config.popupMessage]);
-
-  const handleSendMessage = async (content: string) => {
-    if (!content.trim()) return;
-
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      content,
-      sender: 'user',
-      timestamp: Date.now(),
-    };
-    setMessages(prev => [...prev, userMessage]);
-
-    try {
-      const response = await fetch(
-        `https://n8n-automations-w0mh.onrender.com/webhook/chatbot-message?message=${encodeURIComponent(content)}&userId=${encodeURIComponent(config.uuid)}`,
-        { method: 'POST' }
-      );
-
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-      const data = await response.json();
-      
-      const botMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        content: data.response || data.output || 'Sorry, I could not process your request.',
-        sender: 'bot',
-        timestamp: Date.now() + 1,
-      };
-      setMessages(prev => [...prev, botMessage]);
-    } catch (error) {
-      const errorMessage = config.language === 'rtl' 
-        ? 'عذراً، حدث خطأ في إرسال الرسالة. يرجى المحاولة مرة أخرى.'
-        : 'Sorry, there was an error sending your message. Please try again.';
-      
-      toast({
-        title: "Error",
-        description: errorMessage,
-        variant: "destructive",
-      });
-    }
-  };
+  if (!isAllowed) {
+    return null; // Don't render anything if origin is not allowed
+  }
 
   return (
-    <>
-      <ChatToggle config={config} isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
-      
-      {showPopup && !isOpen && config.popupMessage?.enabled && (
-        <div
-          className="fixed bottom-20 right-4 p-4 rounded-lg shadow-lg animate-fade-in max-w-[250px]"
-          style={{
-            backgroundColor: config.popupMessage.backgroundColor,
-            color: config.popupMessage.textColor,
-          }}
-        >
-          {config.popupMessage.text}
+    <div className="fixed bottom-4 right-4 z-50">
+      {isOpen ? (
+        <div className="bg-white rounded-lg shadow-xl flex flex-col"
+             style={{
+               width: mergedConfig.dimensions.width,
+               height: mergedConfig.dimensions.height,
+             }}>
+          <ChatHeader config={mergedConfig} onClose={() => setIsOpen(false)} />
+          <ChatMessages config={mergedConfig} />
+          <ChatInput config={mergedConfig} />
+          <ChatFooter config={mergedConfig} />
         </div>
+      ) : (
+        <ChatToggle onClick={() => setIsOpen(true)} />
       )}
-
-      {isOpen && (
-        <div
-          className="fixed bottom-24 right-4 flex flex-col rounded-lg shadow-xl animate-fade-in"
-          style={{
-            width: config.dimensions.width,
-            height: config.dimensions.height,
-            backgroundColor: config.messages.background,
-          }}
-        >
-          <ChatHeader config={config} />
-          <ChatMessages config={config} messages={messages} />
-          <ChatInput config={config} onSendMessage={handleSendMessage} />
-          <ChatFooter config={config} />
-        </div>
-      )}
-    </>
+    </div>
   );
 };
 
